@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -12,8 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import ar.com.capitalmarkets.cmaetl.CmaEtlApplication;
 import ar.com.capitalmarkets.cmaetl.model.ComitenteDetalle;
 import ar.com.capitalmarkets.cmaetl.vbolsa.entity.Comitente;
 import ar.com.capitalmarkets.cmaetl.vbolsa.entity.MovimientosView;
@@ -26,7 +29,7 @@ import ar.com.capitalmarkets.cmaetl.vbolsa.repository.ITenenciaRepository;
 @Service
 public class Proceso {
 	
-	private static final Logger logger = LoggerFactory.getLogger(CmaEtlApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(Proceso.class);
 
 	private final IComitenteRepository comitenteRepository;
 	private final ITenenciaRepository tenenciaRepository;
@@ -48,17 +51,31 @@ public class Proceso {
 		List<Comitente> tenenciasComitentes;
 		List<ComitenteDetalle> comitentes=new ArrayList<>();
 		List<Tenencia> tenencias;
-		CompletableFuture<MovimientosView> movimientos2;
+		ListenableFuture<List<MovimientosView>> movimientosFuture;
+//		Stream<MovimientosView> movimientos;
 		Stream<MovimientosView> movimientos;
 		
 		try {
 			tenenciasComitentes = comitenteRepository.findByFechaIngresoLessThanAndEstaAnulado(sdf.parse("2015/07/01"),false);
-			tenencias = tenenciaRepository.findTenenciasByNumComitente(null, sdf.parse("2015/07/01"), false);
+			tenencias = tenenciaRepository.findTenenciasByNumComitente(2001, sdf.parse("2015/07/01"), false);
 //			movimientos=movimientosViewRepository.findByIdFechaAfter(sdf.parse("2019/04/01")).parallelStream().collect(Collectors.toList());
-			movimientos2=movimientosViewRepository.findByIdFechaAfter(sdf.parse("2019/04/01"));
-			movimientos=movimientosViewRepository.findByIdFechaGreaterThanEqual(sdf.parse("2019/04/01")).parallel();
-			
+			movimientosFuture=movimientosViewRepository.findByIdFechaAfter(sdf.parse("2019/06/01"));
+			movimientosFuture.
+			movimientosFuture.addCallback(new ListenableFutureCallback<List<MovimientosView>>() {
 
+				@Override
+				public void onFailure(Throwable ex) {
+					logger.info("Llamo al callback onFailure MovFutures");
+				}
+
+				@Override
+				public void onSuccess(List<MovimientosView> result) {
+					logger.info("Llamo al callback onSuccess MovFutures");
+//					this.movimientos=movimientosFuture.get().parallelStream();//.collect(Collectors.toList());
+				}
+			});
+			
+			movimientos=movimientosViewRepository.findByIdFechaGreaterThanEqual(sdf.parse("2019/06/01")).parallel();
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return;
@@ -96,9 +113,9 @@ public class Proceso {
 			}
 			
 		});
-		movimientos.close();
-		tenenciasComitentes.clear();
-		tenencias.clear();
+//		movimientos.close();
+//		tenenciasComitentes.clear();
+//		tenencias.clear();
 		var finish=System.currentTimeMillis();
 		logger.info("Fin:"+finish);
 		logger.info("Tiempo de proceso: "+(finish-start));

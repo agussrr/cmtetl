@@ -14,7 +14,7 @@ public class CmaEtlApplication implements CommandLineRunner {
 	@Autowired private Proceso procesoBean;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(CmaEtlApplication.class, args);
+		SpringApplication.run(CmaEtlApplication.class, args).close();;
 	}
 
 	@Override

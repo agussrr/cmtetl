@@ -6,9 +6,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.stereotype.Repository;
+
 import ar.com.capitalmarkets.cmaetl.vbolsa.entity.Tenencia;
 
-//@Repository
+@Repository
 public class TenenciaRepository implements ITenenciaRepository{
 	
 	@PersistenceContext private EntityManager entityManager;
