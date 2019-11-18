@@ -5,10 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
@@ -23,6 +21,7 @@ public class Documentacion {
 	@Embeddable
 	@Data
 	public static class CompositePk implements Serializable {
+		private static final long serialVersionUID = 1L;
 		@Column (name="CodComitente",table="DOCUMENTACIONCMT") private Integer codComitente;
 		@Column (name="CodDocumentacion",table="DOCUMENTACIONCMT") private Integer codDocumentacion;
 	}

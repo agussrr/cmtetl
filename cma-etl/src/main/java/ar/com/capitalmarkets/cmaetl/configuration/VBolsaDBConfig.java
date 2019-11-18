@@ -1,6 +1,5 @@
 package ar.com.capitalmarkets.cmaetl.configuration;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 

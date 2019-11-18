@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Immutable;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity
@@ -23,6 +22,7 @@ public class MovimientosView {
 	@Embeddable
 	@Data
 	public static class CompositePk implements Serializable {
+		private static final long serialVersionUID = -8622212333829465975L;
 		@Column(name="Comitente") private Integer numComitente;
 		@Column(name="Fecha") private Date fecha;
 		@Column(name="Cuenum") private Integer cuenum;
