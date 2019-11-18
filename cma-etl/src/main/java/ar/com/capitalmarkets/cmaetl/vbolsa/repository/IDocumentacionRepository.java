@@ -6,12 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import ar.com.capitalmarkets.cmaetl.vbolsa.entity.Documentacion;
-import ar.com.capitalmarkets.cmaetl.vbolsa.entity.Documentacion.CompositePk;
 
 @Repository
-public interface IDocumentacionRepository extends JpaRepository<Documentacion, CompositePk>{
+public interface IDocumentacionRepository extends JpaRepository<Documentacion, Integer>{
 	
-	List<Documentacion> findAllByIdCodComitente(Integer c);
-	List<Documentacion> findByIdCodComitenteAndIdCodDocumentacion(Integer c, Integer d);
+	List<Documentacion> findAllByCodComitente(Integer c);
+	List<Documentacion> findByCodComitenteAndCodDocumentacion(Integer c, Integer d);
 
 }

@@ -68,7 +68,7 @@ public class ComitenteDetalle {
 		} else {
 			if (this.documentacion==null) this.documentacion=new HashMap<Integer,Documentacion>();
 			d.parallelStream().forEach((d1)->{
-				this.documentacion.putIfAbsent(d1.getId().getCodDocumentacion(), d1);
+				this.documentacion.putIfAbsent(d1.getCodDocumentacion(), d1);
 			});
 		}
 	}
@@ -81,8 +81,8 @@ public class ComitenteDetalle {
 		this.fecha=fecha;
 		this.esPorConcertacion=esPorConcertacion;
 		setValuacion(new Valuacion(this.comitente.getNumComitente(), "Pesos", esPorConcertacion, fecha));
-		t.parallelStream().filter((t1)-> t1.getNumComitente().equals(comitente.getNumComitente()))
-				.forEach(this::addTenencia);
+		//t.parallelStream().filter((t1)-> t1.getNumComitente().equals(comitente.getNumComitente())).forEach(this::addTenencia);
+		this.setTenencias(t);
 		if (this.tenencias!=null) {
 			this.tenencias.parallelStream().forEach(this::calcularDetalleValuacion);
 		}

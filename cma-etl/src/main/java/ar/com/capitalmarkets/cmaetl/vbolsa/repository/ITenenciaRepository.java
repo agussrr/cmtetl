@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import ar.com.capitalmarkets.cmaetl.vbolsa.entity.Tenencia;
 
 @Repository

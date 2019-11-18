@@ -16,10 +16,11 @@ import ar.com.capitalmarkets.cmaetl.vbolsa.entity.MovimientosView.CompositePk;
 
 @Repository
 public interface IMovimientosViewRepository extends JpaRepository<MovimientosView, CompositePk>{
-	
+	@Transactional(readOnly = true)
 	List<MovimientosView> findByIdNumComitenteAndIdFechaGreaterThan (Integer numComitente, Date fecha);
 
-	@Async ListenableFuture<List<MovimientosView>> findByIdFechaAfter(Date fecha);
+	@Async 
+	ListenableFuture<List<MovimientosView>> findByIdFechaAfter(Date fecha);
 	
 //	@Query (value = "SELECT MAX(Fecha),* from vwMovTitulos where Comitente=$1")
 //	Stream<MovimientosView> findMaxDateByIdNumComitente(Integer numComitente);

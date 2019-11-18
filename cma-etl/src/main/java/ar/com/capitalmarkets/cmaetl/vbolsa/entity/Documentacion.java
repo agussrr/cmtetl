@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
@@ -18,14 +20,16 @@ import lombok.Data;
 @SecondaryTable (name="DOCUMENTACION")
 public class Documentacion {	
 	
-	@Embeddable
-	@Data
-	public static class CompositePk implements Serializable {
-		private static final long serialVersionUID = 1L;
-		@Column (name="CodComitente",table="DOCUMENTACIONCMT") private Integer codComitente;
-		@Column (name="CodDocumentacion",table="DOCUMENTACIONCMT") private Integer codDocumentacion;
-	}
-	@EmbeddedId private CompositePk id;
+	@Column (name="CodComitente",table="DOCUMENTACIONCMT") private Integer codComitente;
+	
+//	@Embeddable
+//	@Data
+//	public static class CompositePk implements Serializable {
+//		private static final long serialVersionUID = 1L;
+//		
+	@Id @Column (name="CodDocumentacion",table="DOCUMENTACIONCMT") private Integer codDocumentacion;
+//	}
+//	@EmbeddedId private CompositePk id;
 	@Column (name="FuePresentado",table="DOCUMENTACIONCMT") private Boolean fuePresentado;
 	@Column (name="FechaVencimiento",table="DOCUMENTACIONCMT") private Date fechaVencimiento;
 	@Column (name="Descripcion", table="DOCUMENTACION") private String descripcion;
