@@ -1,3 +1,4 @@
+//Clase de acciones
 package ar.com.capitalmarkets.cmaetl.vbolsa.entity;
 
 import javax.persistence.Column;
